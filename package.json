@@ -1,0 +1,32 @@
+{
+  "name": "ametrine-api",
+  "version": "1.0.0",
+  "description": "REST API on Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hmbanan666/ametrine-api.git"
+  },
+  "keywords": [
+    "api",
+    "node"
+  ],
+  "author": "Nick Kosarev <hmbanan666@hotmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hmbanan666/ametrine-api/issues"
+  },
+  "homepage": "https://github.com/hmbanan666/ametrine-api#readme",
+  "dependencies": {
+    "config": "^3.3.6",
+    "express": "^4.17.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
