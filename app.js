@@ -11,7 +11,7 @@ let CONTACTS = [
 // PostgreSQL
 const {Pool} = require('pg')
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || 'postgres://igtztsmtrhqyab:e477a518041083697c806ded9bdf2347103681fce46225df53c1e295ad5cd60c@ec2-44-196-8-220.compute-1.amazonaws.com:5432/d6svbua0ihar04',
   ssl: {
     rejectUnauthorized: false
   }
@@ -25,16 +25,13 @@ app.get('/v1/coin/:uuid', async (req, res) => {
   try {
     const uuid = req.params.uuid
     const client = await pool.connect()
-    const result = await client.query('SELECT * FROM coins WHERE uuid_coinranking = $1', [uuid], (error, results) => {
+    const result = await client.query('SELECT id, coin_name, uuid_coinranking, coin_symbol FROM coins WHERE uuid_coinranking = $1', [uuid], (error, results) => {
       if (error) {
         throw error
       }
       res.status(200).json(results.rows)
     })
-    /*const results = {'data': (result) ? result.rows : null}
-    res.status(200).json(results)
-    //res.render('pages/db', results)
-    client.release()*/
+    client.release()
   } catch (err) {
     console.error(err)
     res.send("Error " + err)
