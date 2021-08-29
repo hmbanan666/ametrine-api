@@ -24,7 +24,7 @@ app.use(express.json())
 app.get('/v1/coin/:uuid', async (req, res) => {
   try {
     const client = await pool.connect()
-    const result = await client.query(`SELECT * FROM coins WHERE uuid_coinranking = ${req.params.uuid}`)
+    const result = await client.query(`SELECT * FROM coins WHERE 'uuid_coinranking' = ${req.params.uuid}`)
     const results = {'data': (result) ? result.rows : null}
     res.status(200).json(results)
     //res.render('pages/db', results)
