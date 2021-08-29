@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const {v4} = require('uuid')
-const PORT = process.env.PORT || 3000
+const port = process.env.PORT || 3000
 const app = express()
 
 let CONTACTS = [
@@ -23,12 +23,18 @@ app.use(express.json())
 // GET
 app.get('/v1/coin/:uuid', async (req, res) => {
   try {
+    const uuid = req.params.uuid
     const client = await pool.connect()
-    const result = await client.query(`SELECT * FROM coins WHERE 'uuid_coinranking' = ${req.params.uuid}`)
-    const results = {'data': (result) ? result.rows : null}
+    const result = await client.query('SELECT * FROM coins WHERE uuid_coinranking = $1', [uuid], (error, results) => {
+      if (error) {
+        throw error
+      }
+      res.status(200).json(results.rows)
+    })
+    /*const results = {'data': (result) ? result.rows : null}
     res.status(200).json(results)
     //res.render('pages/db', results)
-    client.release()
+    client.release()*/
   } catch (err) {
     console.error(err)
     res.send("Error " + err)
@@ -58,18 +64,19 @@ app.put('/api/contacts/:id', (req, res) => {
 
 /////////////////////////////////////////////////////////
 // Show client
-app.use(express.static(path.resolve(__dirname, 'client')))
+//app.use(express.static(path.resolve(__dirname, 'client')))
 
 // All GET
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
+  //res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
+  res.json({ info: 'Hi!' })
 })
 
 // Start
 async function start() {
   try {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`)
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`)
     })
   } catch (e) {
     console.log('Server error', e.message)
