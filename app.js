@@ -20,23 +20,19 @@ const pool = new Pool({
 //
 app.use(express.json())
 
-//
-app.get('/db', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM test_table');
-    const results = {'results': (result) ? result.rows : null};
-    res.render('pages/db', results);
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-})
-
 // GET
-app.get('/api/contacts', (req, res) => {
-  res.status(200).json(CONTACTS)
+app.get('/v1/coin/:uuid', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    const result = await client.query(`SELECT * FROM coins WHERE uuid_coinranking = ${req.params.uuid}`)
+    const results = {'data': (result) ? result.rows : null}
+    res.status(200).json(results)
+    //res.render('pages/db', results)
+    client.release()
+  } catch (err) {
+    console.error(err)
+    res.send("Error " + err)
+  }
 })
 
 // POST
