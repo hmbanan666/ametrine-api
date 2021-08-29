@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const {v4} = require('uuid')
+const PORT = process.env.PORT || 3000
 const app = express()
 
 let CONTACTS = [
@@ -43,9 +44,6 @@ app.use(express.static(path.resolve(__dirname, 'client')))
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
 })
-
-// Port
-const PORT = process.env.PORT || 3000
 
 // Start
 async function start() {

@@ -7,6 +7,9 @@
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hmbanan666/ametrine-api.git"
